@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours Excel – Terminale C & D</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1db954;
+    --green-light: #23e065;
+    --dark: #0a0f0a;
+    --card: #111811;
+    --card2: #162016;
+    --border: #1e2e1e;
+    --text: #d4e8d4;
+    --muted: #6b8f6b;
+    --accent: #f5e642;
+    --red: #e05252;
+    --blue: #4ec9f0;
+    --white: #f0f7f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0d1f0d 0%, #0a150a 60%, #071207 100%);
+    border-bottom: 2px solid var(--green);
+    padding: 50px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "XL";
+    position: absolute;
+    right: -20px; top: -30px;
+    font-family: 'Syne', sans-serif;
+    font-size: 220px;
+    font-weight: 800;
+    color: rgba(29,185,84,0.05);
+    letter-spacing: -10px;
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--green);
+    color: #000;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    max-width: 700px;
+  }
+  header h1 span { color: var(--green); }
+  header p.subtitle {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 560px;
+  }
+
+  /* MAIN */
+  main { max-width: 900px; margin: 0 auto; padding: 50px 24px 80px; }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--white);
+    margin: 60px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-title .num {
+    background: var(--green);
+    color: #000;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    color: var(--green);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .card p { color: var(--text); margin-bottom: 10px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ANALOGY BOX */
+  .analogy {
+    background: #0f2a0f;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 18px 22px;
+    margin: 16px 0;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .analogy strong { font-style: normal; }
+
+  /* IMPORTANT NOTE */
+  .note {
+    background: #1a1200;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    color: #e8d84a;
+    font-size: 0.93rem;
+  }
+  .note::before { content: "💡 "; }
+
+  /* EXCEL TABLE */
+  .excel-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+  }
+  table.excel {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    min-width: 580px;
+  }
+  table.excel th {
+    background: #1c2c1c;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  table.excel td {
+    padding: 9px 14px;
+    border: 1px solid #1a2a1a;
+    color: var(--text);
+    text-align: center;
+    background: var(--card2);
+    min-width: 90px;
+  }
+  table.excel td.row-head {
+    background: #1c2c1c;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-align: center;
+    min-width: 40px;
+  }
+  table.excel td.header-row {
+    background: #1c361c;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.82rem;
+  }
+  table.excel td.formula-cell {
+    background: #0d1f0d;
+    color: var(--accent);
+    font-style: italic;
+  }
+  table.excel td.result-cell {
+    background: #0d1f0d;
+    color: var(--green-light);
+    font-weight: 700;
+  }
+  table.excel td.highlight {
+    background: #1a3020;
+    color: var(--white);
+  }
+
+  /* FORMULA BLOCK */
+  .formula-box {
+    background: #060f06;
+    border: 1px solid var(--green);
+    border-radius: 6px;
+    padding: 16px 22px;
+    margin: 18px 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .formula-box .label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .formula-box code {
+    color: var(--green);
+    font-size: 1rem;
+    display: block;
+  }
+  .formula-box .result {
+    margin-top: 8px;
+    color: var(--accent);
+    font-size: 0.88rem;
+  }
+
+  /* STEPS */
+  .steps { counter-reset: step; list-style: none; margin: 16px 0; }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+  .steps li::before {
+    content: counter(step);
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: var(--green);
+    color: #000;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+
+  /* QUESTION SECTION */
+  .question-block {
+    background: #0f1f0f;
+    border: 1px solid #223322;
+    border-radius: 10px;
+    padding: 26px 30px;
+    margin-bottom: 22px;
+  }
+  .question-block .q-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    background: var(--green);
+    color: #000;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .q-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--white);
+  }
+  .answer-toggle {
+    background: none;
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .answer-toggle:hover { background: var(--green); color: #000; }
+  .answer-panel {
+    display: none;
+    margin-top: 16px;
+    padding: 18px;
+    background: #0a1a0a;
+    border-radius: 6px;
+    border-left: 3px solid var(--green);
+  }
+  .answer-panel.open { display: block; }
+  .answer-panel p { color: var(--text); margin-bottom: 8px; }
+  .answer-panel code {
+    display: inline-block;
+    background: #060f06;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.9rem;
+  }
+
+  /* KEY CONCEPT PILL */
+  .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #1a2e1a;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.82rem;
+    color: var(--green-light);
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+
+  /* WARNING */
+  .warn {
+    background: #200d0d;
+    border: 1px solid var(--red);
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    color: #f0a0a0;
+    font-size: 0.93rem;
+  }
+  .warn::before { content: "⚠️ "; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 50px 0; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* responsive */
+  @media (max-width: 600px) {
+    header { padding: 36px 20px 28px; }
+    main { padding: 30px 16px 60px; }
+    .card { padding: 20px 18px; }
+    .question-block { padding: 18px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">INFORMATIQUE · TERMINALE C &amp; D</div>
+  <h1>Le <span>Tableur Excel</span><br>de A à Z</h1>
+  <p class="subtitle">Un cours complet, simple et pratique — compréhensible dès la 5e, maîtrisable en Terminale.</p>
+</header>
+
+<main>
+
+  <!-- INTRODUCTION -->
+  <div class="section-title"><span class="num">0</span> C'est quoi un tableur ? Pourquoi Excel ?</div>
+
+  <div class="card">
+    <h3>🖥️ Définition simple</h3>
+    <p>Un <strong>tableur</strong> est un logiciel qui permet de faire des calculs automatiquement dans un tableau. On y écrit des données (chiffres, textes) dans des cases, et on lui dit quelles opérations effectuer.</p>
+    <div class="analogy">
+      <strong>Imagine :</strong> Tu as un grand cahier quadrillé. Chaque petite case peut contenir un nombre ou un mot. Et si tu écris une formule magique dans une case, elle calcule toute seule le résultat — même si tu changes les données !
+    </div>
+    <p>Les tableurs les plus utilisés sont :</p>
+    <div class="pills">
+      <span class="pill"><span class="dot"></span>Microsoft Excel (le plus célèbre)</span>
+      <span class="pill"><span class="dot"></span>OpenCalc (Open Office)</span>
+      <span class="pill"><span class="dot"></span>Sun StarOffice Calc</span>
+      <span class="pill"><span class="dot"></span>KSpread (Linux)</span>
+      <span class="pill"><span class="dot"></span>Lotus 1-2-3</span>
+    </div>
+    <p style="margin-top:12px">Dans ce cours, on travaille avec <strong>Microsoft Excel</strong>.</p>
+  </div>
+
+  <!-- INTERFACE -->
+  <div class="section-title"><span class="num">I</span> L'interface d'Excel — Connaître son environnement</div>
+
+  <div class="card">
+    <h3>Les éléments clés à connaître</h3>
+
+    <div class="excel-wrap">
+      <table class="excel">
+        <thead>
+          <tr>
+            <th></th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-head">1</td>
+            <td class="highlight">← Cellule A1</td>
+            <td>B1</td>
+            <td>C1</td>
+            <td>D1</td>
+            <td>E1</td>
+          </tr>
+          <tr>
+            <td class="row-head">2</td>
+            <td>A2</td>
+            <td class="highlight">← Cellule B2</td>
+            <td>C2</td>
+            <td>D2</td>
+            <td>E2</td>
+          </tr>
+          <tr>
+            <td class="row-head">3</td>
+            <td>A3</td>
+            <td>B3</td>
+            <td class="highlight">← C3 active</td>
+            <td>D3</td>
+            <td>E3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Ce que tu vois dans Excel :</strong></p>
+    <ul class="steps" style="counter-reset:none; list-style: none; padding:0;">
+      <li style="display:flex; gap:10px; align-items:flex-start; margin-bottom:10px;">
+        <span style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.8rem; min-width:80px; margin-top:2px;">COLONNES</span>
+        <span>Les colonnes sont les lignes <strong>verticales</strong>, nommées avec des lettres : A, B, C, D, E… Z, AA, AB…</span>
+      </li>
+      <li style="display:flex; gap:10px; align-items:flex-start; margin-bottom:10px;">
+        <span style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.8rem; min-width:80px; margin-top:2px;">LIGNES</span>
+        <span>Les lignes sont les rangées <strong>horizontales</strong>, numérotées : 1, 2, 3, 4…</span>
+      </li>
+      <li style="display:flex; gap:10px; align-items:flex-start; margin-bottom:10px;">
+        <span style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.8rem; min-width:80px; margin-top:2px;">CELLULE</span>
+        <span>Une <strong>cellule</strong> = intersection d'une colonne et d'une ligne. Exemples : A1, B3, C15. C'est la case où tu saisis tes données.</span>
+      </li>
+      <li style="display:flex; gap:10px; align-items:flex-start; margin-bottom:10px;">
+        <span style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.8rem; min-width:80px; margin-top:2px;">PLAGE</span>
+        <span>Une <strong>plage de cellules</strong> = un groupe de cellules. Exemple : <code style="background:#060f06; color:var(--accent); font-family:'JetBrains Mono'; padding:2px 6px; border-radius:3px;">A1:E5</code> désigne toutes les cellules de A1 à E5.</span>
+      </li>
+      <li style="display:flex; gap:10px; align-items:flex-start;">
+        <span style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.8rem; min-width:80px; margin-top:2px;">BARRE DE FORMULE</span>
+        <span>C'est la zone en haut où tu vois et tapes les formules. Si tu es dans la cellule C3 et que tu tapes une formule, elle s'affiche ici.</span>
+      </li>
+    </ul>
+
+    <div class="analogy">
+      <strong>Analogie :</strong> Une cellule Excel, c'est comme une case d'un carnet quadrillé. Son nom (A1, B3…) c'est son adresse — comme le numéro d'une maison dans une rue.
+    </div>
+  </div>
+
+  <!-- RÉFÉRENCES -->
+  <div class="section-title"><span class="num">II</span> Les Références de Cellules</div>
+
+  <div class="card">
+    <h3>🔗 Deux types de références à connaître</h3>
+    <p>Quand on écrit une formule, on utilise les <strong>adresses</strong> (références) des cellules. Il en existe deux types :</p>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:16px;">
+      <div style="background:#0a1a0a; border:1px solid var(--green); border-radius:6px; padding:16px;">
+        <div style="color:var(--green); font-family:'Syne',sans-serif; font-weight:700; margin-bottom:8px;">📍 Référence RELATIVE</div>
+        <p style="font-size:0.9rem;">Elle <strong>change automatiquement</strong> quand tu copies-colles la formule dans une autre cellule.</p>
+        <div class="formula-box" style="margin-top:10px; padding:10px 14px;">
+          <code>=A1+B1</code>
+          <div class="result">Si tu copies cette formule en ligne 2 → elle devient =A2+B2</div>
+        </div>
+      </div>
+      <div style="background:#0a1a0a; border:1px solid var(--accent); border-radius:6px; padding:16px;">
+        <div style="color:var(--accent); font-family:'Syne',sans-serif; font-weight:700; margin-bottom:8px;">🔒 Référence ABSOLUE</div>
+        <p style="font-size:0.9rem;">Elle <strong>ne change JAMAIS</strong>, même si tu copies la formule. On utilise le signe <strong>$</strong>.</p>
+        <div class="formula-box" style="margin-top:10px; padding:10px 14px;">
+          <code>=$A$1+B1</code>
+          <div class="result">Peu importe où tu copies, $A$1 reste fixe !</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy" style="margin-top:18px;">
+      <strong>Explication simple :</strong> La référence relative, c'est comme dire "prends la case juste à gauche". Elle suit le mouvement. La référence absolue, c'est comme dire "prends TOUJOURS la case A1, sans exception". Elle est fixée.
+    </div>
+
+    <div class="note">La notation L1C5 (Ligne 1, Colonne 5) est aussi valide dans Excel. Elle pointe vers la cellule à l'intersection de la ligne 1 et de la colonne 5 (= cellule E1).</div>
+  </div>
+
+  <!-- FONCTIONS DE BASE -->
+  <div class="section-title"><span class="num">III</span> Les Fonctions de Base</div>
+
+  <div class="card">
+    <h3>📐 Qu'est-ce qu'une fonction ?</h3>
+    <p>Une <strong>fonction</strong> est une formule prédéfinie qui effectue un calcul précis. Au lieu d'écrire <code style="background:#060f06;color:var(--accent);font-family:'JetBrains Mono';padding:2px 6px;border-radius:3px;">=A1+A2+A3+A4+A5</code>, tu peux écrire <code style="background:#060f06;color:var(--accent);font-family:'JetBrains Mono';padding:2px 6px;border-radius:3px;">=SOMME(A1:A5)</code> — c'est plus rapide !</p>
+    <p style="margin-top:8px">La syntaxe générale est : <code style="background:#060f06;color:var(--green);font-family:'JetBrains Mono';padding:2px 8px;border-radius:3px;">=NOM_FONCTION(argument1; argument2; …)</code></p>
+  </div>
+
+  <!-- SOMME -->
+  <div class="card">
+    <h3>➕ SOMME() — Additionner des cellules</h3>
+    <p>Elle additionne toutes les valeurs d'une plage de cellules.</p>
+    <div class="formula-box">
+      <div class="label">Syntaxe</div>
+      <code>=SOMME(cellule_début : cellule_fin)</code>
+      <div class="result">Additionne toutes les cellules entre début et fin</div>
+    </div>
+    <div class="formula-box">
+      <div class="label">Exemples</div>
+      <code>=SOMME(A1:A10)</code>
+      <div class="result">Additionne A1 + A2 + A3 + … + A10</div>
+    </div>
+    <div class="formula-box">
+      <code>=SOMME(A1;A3;A5:A9)</code>
+      <div class="result">Additionne A1, A3, puis toutes les cellules de A5 à A9</div>
+    </div>
+    <div class="analogy">
+      <strong>Image :</strong> C'est comme faire la somme de tous tes points dans un jeu vidéo, sans les compter un par un !
+    </div>
+  </div>
+
+  <!-- MOYENNE -->
+  <div class="card">
+    <h3>📊 MOYENNE() — Calculer la moyenne</h3>
+    <p>Elle calcule la <strong>moyenne arithmétique</strong> d'une plage. Elle additionne tout et divise par le nombre de valeurs.</p>
+    <div class="formula-box">
+      <div class="label">Syntaxe</div>
+      <code>=MOYENNE(A1:A10)</code>
+      <div class="result">= (A1+A2+…+A10) ÷ 10</div>
+    </div>
+    <div class="analogy">
+      <strong>Image :</strong> C'est la moyenne de classe ! Tu additionnes toutes les notes et tu divises par le nombre d'élèves.
+    </div>
+  </div>
+
+  <!-- SI -->
+  <div class="card">
+    <h3>🔀 SI() — Tester une condition</h3>
+    <p>C'est la fonction la plus puissante pour les décisions. Elle dit : <em>"Si tel truc est vrai, fais ça, sinon fais autre chose."</em></p>
+    <div class="formula-box">
+      <div class="label">Syntaxe</div>
+      <code>=SI(condition ; valeur_si_vrai ; valeur_si_faux)</code>
+    </div>
+    <div class="formula-box">
+      <div class="label">Exemple concret</div>
+      <code>=SI(B2>=10 ; "Admis" ; "Refusé")</code>
+      <div class="result">Si la note en B2 est ≥ 10 → affiche "Admis", sinon affiche "Refusé"</div>
+    </div>
+    <div class="analogy">
+      <strong>Image :</strong> C'est comme un agent de contrôle : "Si ton ticket est valide → tu passes. Sinon → tu ne passes pas."
+    </div>
+  </div>
+
+  <!-- SOMME.SI -->
+  <div class="card">
+    <h3>➕🔀 SOMME.SI() — Additionner sous condition</h3>
+    <p>Elle additionne uniquement les cellules qui <strong>respectent une condition</strong>.</p>
+    <div class="formula-box">
+      <div class="label">Syntaxe</div>
+      <code>=SOMME.SI(plage_test ; critère ; plage_somme)</code>
+    </div>
+    <div class="formula-box">
+      <div class="label">Exemple</div>
+      <code>=SOMME.SI(B2:B10 ; "Toyota" ; C2:C10)</code>
+      <div class="result">Additionne les ventes (colonne C) uniquement pour les lignes où la marque (colonne B) est "Toyota"</div>
+    </div>
+  </div>
+
+  <!-- RANG -->
+  <div class="card">
+    <h3>🏆 RANG() — Classer des valeurs</h3>
+    <p>Elle donne le <strong>rang</strong> (classement) d'une valeur dans une liste.</p>
+    <div class="formula-box">
+      <div class="label">Syntaxe</div>
+      <code>=RANG(valeur ; référence ; ordre)</code>
+      <div class="result">ordre = 0 → décroissant (le plus grand = rang 1) | ordre = 1 → croissant</div>
+    </div>
+    <div class="formula-box">
+      <div class="label">Exemple</div>
+      <code>=RANG(B2 ; $B$2:$B$10 ; 0)</code>
+      <div class="result">Donne le rang de B2 parmi toutes les notes de B2 à B10 (en ordre décroissant)</div>
+    </div>
+    <div class="note">Remarque : on utilise $B$2:$B$10 (référence absolue) pour que la plage ne change pas quand on copie la formule vers le bas.</div>
+  </div>
+
+  <hr>
+
+  <!-- MISE EN FORME -->
+  <div class="section-title"><span class="num">IV</span> Mise en Forme &amp; Opérations Avancées</div>
+
+  <div class="card">
+    <h3>🎨 La Mise en Forme d'un Tableau</h3>
+    <p>La mise en forme, c'est embellir ton tableau pour qu'il soit lisible et professionnel. Excel propose des <strong>styles de tableau prédéfinis</strong>.</p>
+    <ol class="steps">
+      <li>Sélectionne les cellules que tu veux mettre en forme</li>
+      <li>Va dans l'onglet <strong>Accueil</strong> → clique sur <strong>Mettre sous forme de tableau</strong></li>
+      <li>Choisis un style dans la liste (couleurs, rayures…)</li>
+    </ol>
+    <p style="margin-top:10px">Tu peux aussi personnaliser manuellement : gras, couleur de fond, bordures, taille de police, alignement…</p>
+  </div>
+
+  <div class="card">
+    <h3>🔒 Protéger une Feuille de Calcul</h3>
+    <p>Protéger une feuille permet d'empêcher des personnes non autorisées de modifier tes données.</p>
+    <ol class="steps">
+      <li>Sélectionne les cellules qui peuvent être modifiées</li>
+      <li>Dans l'onglet <strong>Accueil</strong> → Cellule → Format → désactive "Verrouiller la cellule"</li>
+      <li>Clique sur <strong>Protéger la feuille</strong></li>
+      <li>Tape un mot de passe et confirme-le</li>
+    </ol>
+    <div class="analogy">
+      <strong>Image :</strong> C'est comme mettre un cadenas sur ton classeur : seules les personnes avec la clé (le mot de passe) peuvent modifier le contenu.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🖨️ Les Zones d'Impression</h3>
+    <p>La zone d'impression définit exactement <strong>quelles parties</strong> du tableau seront imprimées sur papier.</p>
+    <ol class="steps">
+      <li>Sélectionne les cellules à imprimer</li>
+      <li>Va dans l'onglet <strong>Mise en Page</strong></li>
+      <li>Clique sur <strong>Zone d'impression</strong> → <strong>Définir</strong></li>
+    </ol>
+    <div class="note">Pratique pour n'imprimer qu'une partie du tableau, pas toute la feuille vide !</div>
+  </div>
+
+  <hr>
+
+  <!-- EXERCICE PRATIQUE -->
+  <div class="section-title"><span class="num">V</span> 🧪 Exercice Pratique Complet</div>
+
+  <div class="card" style="border-color: var(--green);">
+    <h3 style="font-size:1.2rem;">Contexte de l'exercice</h3>
+    <p>Le Lycée Général de Douala organise la <strong>remise de notes du premier trimestre</strong>. Le professeur principal te demande de créer un tableau Excel pour gérer les résultats de 8 élèves dans 4 matières.</p>
+    <p style="margin-top:8px">Voici le tableau tel qu'il devrait apparaître dans Excel :</p>
+  </div>
+
+  <!-- LE TABLEAU EXCEL FICTIF -->
+  <div class="excel-wrap">
+    <table class="excel">
+      <thead>
+        <tr>
+          <th></th>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+          <th>D</th>
+          <th>E</th>
+          <th>F</th>
+          <th>G</th>
+          <th>H</th>
+          <th>I</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-head">1</td>
+          <td class="header-row">N°</td>
+          <td class="header-row">Nom de l'élève</td>
+          <td class="header-row">Maths</td>
+          <td class="header-row">Physique</td>
+          <td class="header-row">Français</td>
+          <td class="header-row">SVT</td>
+          <td class="header-row">Moyenne</td>
+          <td class="header-row">Mention</td>
+          <td class="header-row">Rang</td>
+        </tr>
+        <tr>
+          <td class="row-head">2</td>
+          <td>1</td>
+          <td>MBALLA Eric</td>
+          <td>15</td>
+          <td>13</td>
+          <td>12</td>
+          <td>14</td>
+          <td class="formula-cell">=MOYENNE(C2:F2)</td>
+          <td class="formula-cell">=SI(G2>=10;"Admis";"Refusé")</td>
+          <td class="formula-cell">=RANG(G2;$G$2:$G$9;0)</td>
+        </tr>
+        <tr>
+          <td class="row-head">3</td>
+          <td>2</td>
+          <td>FOUDA Marie</td>
+          <td>18</td>
+          <td>17</td>
+          <td>15</td>
+          <td>16</td>
+          <td class="result-cell">16.5</td>
+          <td class="result-cell">Admis</td>
+          <td class="result-cell">1</td>
+        </tr>
+        <tr>
+          <td class="row-head">4</td>
+          <td>3</td>
+          <td>NDJOCK Paul</td>
+          <td>8</td>
+          <td>7</td>
+          <td>11</td>
+          <td>9</td>
+          <td class="result-cell">8.75</td>
+          <td class="result-cell" style="color:var(--red)">Refusé</td>
+          <td class="result-cell">8</td>
+        </tr>
+        <tr>
+          <td class="row-head">5</td>
+          <td>4</td>
+          <td>BELINGA Sophie</td>
+          <td>14</td>
+          <td>15</td>
+          <td>13</td>
+          <td>12</td>
+          <td class="result-cell">13.5</td>
+          <td class="result-cell">Admis</td>
+          <td class="result-cell">3</td>
+        </tr>
+        <tr>
+          <td class="row-head">6</td>
+          <td>5</td>
+          <td>ATEBA Jean</td>
+          <td>11</td>
+          <td>10</td>
+          <td>9</td>
+          <td>12</td>
+          <td class="result-cell">10.5</td>
+          <td class="result-cell">Admis</td>
+          <td class="result-cell">6</td>
+        </tr>
+        <tr>
+          <td class="row-head">7</td>
+          <td>6</td>
+          <td>OWONA Cécile</td>
+          <td>16</td>
+          <td>14</td>
+          <td>17</td>
+          <td>15</td>
+          <td class="result-cell">15.5</td>
+          <td class="result-cell">Admis</td>
+          <td class="result-cell">2</td>
+        </tr>
+        <tr>
+          <td class="row-head">8</td>
+          <td>7</td>
+          <td>MANGA Boris</td>
+          <td>12</td>
+          <td>11</td>
+          <td>10</td>
+          <td>13</td>
+          <td class="result-cell">11.5</td>
+          <td class="result-cell">Admis</td>
+          <td class="result-cell">5</td>
+        </tr>
+        <tr>
+          <td class="row-head">9</td>
+          <td>8</td>
+          <td>ESSONO Diane</td>
+          <td>13</td>
+          <td>12</td>
+          <td>14</td>
+          <td>11</td>
+          <td class="result-cell">12.5</td>
+          <td class="result-cell">Admis</td>
+          <td class="result-cell">4</td>
+        </tr>
+        <tr>
+          <td class="row-head">10</td>
+          <td colspan="2" class="header-row">MOYENNE CLASSE</td>
+          <td class="formula-cell">=MOYENNE(C2:C9)</td>
+          <td class="formula-cell">=MOYENNE(D2:D9)</td>
+          <td class="formula-cell">=MOYENNE(E2:E9)</td>
+          <td class="formula-cell">=MOYENNE(F2:F9)</td>
+          <td class="result-cell">12.84</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="row-head">11</td>
+          <td colspan="2" class="header-row">TOTAL MATHS CLASSE</td>
+          <td class="formula-cell">=SOMME(C2:C9)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note" style="margin-top:12px">
+    Les cellules en <span style="color:var(--accent)">jaune/italique</span> contiennent des formules. Les cellules en <span style="color:var(--green-light)">vert clair</span> montrent les résultats calculés.
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="section-title"><span class="num">VI</span> 📝 Questions sur l'Exercice</div>
+
+  <!-- Q1 -->
+  <div class="question-block">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-text">Quelle est la référence de la cellule contenant la note de Maths de FOUDA Marie ?</div>
+    </div>
+    <p style="color:var(--muted); font-size:0.9rem;">Observe le tableau et repère la ligne de FOUDA Marie et la colonne Maths.</p>
+    <button class="answer-toggle" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-panel">
+      <p>FOUDA Marie est en <strong>ligne 3</strong>. La colonne Maths est la <strong>colonne C</strong>.</p>
+      <p>Donc la référence est : <code>C3</code></p>
+      <p style="margin-top:8px; color:var(--muted); font-size:0.9rem;">La valeur dans cette cellule est <strong>18</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-block">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-text">Écris la formule Excel pour calculer la moyenne de MBALLA Eric (ligne 2).</div>
+    </div>
+    <p style="color:var(--muted); font-size:0.9rem;">Sa note de Maths est en C2, Physique en D2, Français en E2, SVT en F2.</p>
+    <button class="answer-toggle" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-panel">
+      <p>La formule à taper dans la cellule G2 est :</p>
+      <p><code>=MOYENNE(C2:F2)</code></p>
+      <p style="margin-top:8px">Cette formule additionne C2, D2, E2, F2 puis divise par 4. Résultat : (15+13+12+14) ÷ 4 = <strong>13.5</strong></p>
+      <p style="margin-top:8px; color:var(--muted); font-size:0.9rem;">On aurait aussi pu écrire : <code>=(C2+D2+E2+F2)/4</code> — c'est équivalent, mais moins élégant.</p>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-block">
+    <div class="q-header">
+      <div class="q-num">3</div>
+      <div class="q-text">Écris la formule pour afficher "Admis" si la moyenne est ≥ 10, et "Refusé" sinon (pour l'élève en ligne 2).</div>
+    </div>
+    <button class="answer-toggle" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-panel">
+      <p>La formule à taper dans la cellule H2 est :</p>
+      <p><code>=SI(G2>=10 ; "Admis" ; "Refusé")</code></p>
+      <p style="margin-top:8px"><strong>Explication :</strong></p>
+      <p>• <code>G2>=10</code> → c'est la <em>condition</em> testée</p>
+      <p>• <code>"Admis"</code> → ce qui s'affiche si la condition est vraie</p>
+      <p>• <code>"Refusé"</code> → ce qui s'affiche si la condition est fausse</p>
+      <div class="note" style="margin-top:10px">N'oublie pas les guillemets autour des mots (textes) dans la formule SI !</div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-block">
+    <div class="q-header">
+      <div class="q-num">4</div>
+      <div class="q-text">Écris la formule pour donner le rang de MBALLA Eric (G2) dans la liste des moyennes G2:G9. On veut que le meilleur soit 1er.</div>
+    </div>
+    <button class="answer-toggle" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-panel">
+      <p>La formule à taper dans la cellule I2 est :</p>
+      <p><code>=RANG(G2 ; $G$2:$G$9 ; 0)</code></p>
+      <p style="margin-top:8px"><strong>Explication :</strong></p>
+      <p>• <code>G2</code> → la valeur dont on cherche le rang</p>
+      <p>• <code>$G$2:$G$9</code> → la plage de toutes les moyennes (en <strong>référence absolue</strong> avec $)</p>
+      <p>• <code>0</code> → ordre décroissant : la plus grande moyenne = rang 1</p>
+      <div class="warn" style="margin-top:10px">On DOIT mettre <code>$G$2:$G$9</code> avec les $ (référence absolue). Sans ça, quand tu copies la formule vers le bas, la plage se décale et les rangs seront faux !</div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-block">
+    <div class="q-header">
+      <div class="q-num">5</div>
+      <div class="q-text">Quelle formule calcule la moyenne de toute la classe en Maths (colonne C, lignes 2 à 9) ?</div>
+    </div>
+    <button class="answer-toggle" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-panel">
+      <p>La formule à taper dans la cellule C10 est :</p>
+      <p><code>=MOYENNE(C2:C9)</code></p>
+      <p style="margin-top:8px">Elle calcule la moyenne de toutes les notes de Maths : (15+18+8+14+11+16+12+13) ÷ 8 = <strong>13.38</strong></p>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-block">
+    <div class="q-header">
+      <div class="q-num">6</div>
+      <div class="q-text">Comment afficher une mention plus précise ? Écris une formule SI imbriquée : "Très Bien" si moy ≥ 16, "Bien" si moy ≥ 14, "Assez Bien" si moy ≥ 12, "Passable" si moy ≥ 10, sinon "Insuffisant".</div>
+    </div>
+    <p style="color:var(--muted); font-size:0.9rem;">Question difficile ! C'est le niveau Terminale 🎓</p>
+    <button class="answer-toggle" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-panel">
+      <p>La formule dans H2 :</p>
+      <p><code>=SI(G2>=16;"Très Bien";SI(G2>=14;"Bien";SI(G2>=12;"Assez Bien";SI(G2>=10;"Passable";"Insuffisant"))))</code></p>
+      <p style="margin-top:12px"><strong>Comment ça fonctionne ?</strong> On imbrique des SI dans des SI :</p>
+      <p>→ SI moy ≥ 16 → "Très Bien"</p>
+      <p>→ SINON, SI moy ≥ 14 → "Bien"</p>
+      <p>→ SINON, SI moy ≥ 12 → "Assez Bien"</p>
+      <p>→ SINON, SI moy ≥ 10 → "Passable"</p>
+      <p>→ SINON → "Insuffisant"</p>
+      <div class="note" style="margin-top:12px">On commence toujours par la condition la plus haute (≥16) et on descend. Si on commence par ≥10, tout le monde serait "Passable" !</div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question-block">
+    <div class="q-header">
+      <div class="q-num">7</div>
+      <div class="q-text">Combien d'élèves ont été admis ? Quelle formule utiliser ?</div>
+    </div>
+    <button class="answer-toggle" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-panel">
+      <p>On utilise la fonction <strong>NB.SI()</strong> qui compte les cellules respectant un critère :</p>
+      <p><code>=NB.SI(H2:H9 ; "Admis")</code></p>
+      <p style="margin-top:8px">Elle parcourt la colonne H (Mention) et compte toutes les cases contenant le mot "Admis".</p>
+      <p style="margin-top:8px">Résultat : <strong>7 élèves admis</strong> (NDJOCK Paul seul refusé avec 8.75 de moyenne).</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- LEXIQUE BILINGUE -->
+  <div class="section-title"><span class="num">VII</span> 🌍 Jeu Bilingue — Vocabulaire Excel</div>
+
+  <div class="card">
+    <h3>Traduis ces termes</h3>
+    <div class="excel-wrap">
+      <table class="excel" style="min-width:400px;">
+        <thead>
+          <tr>
+            <th>Terme en Anglais</th>
+            <th>Traduction en Français</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="highlight">Spreadsheet</td><td>Tableur / Feuille de calcul</td></tr>
+          <tr><td class="highlight">Cell</td><td>Cellule</td></tr>
+          <tr><td class="highlight">Worksheet</td><td>Feuille de calcul</td></tr>
+          <tr><td class="highlight">Formula bar</td><td>Barre de formule</td></tr>
+          <tr><td class="highlight">Workbook</td><td>Classeur (fichier Excel)</td></tr>
+          <tr><td class="highlight">Range</td><td>Plage de cellules</td></tr>
+          <tr><td class="highlight">Bill</td><td>Facture / Note</td></tr>
+          <tr><td class="highlight">Operating System</td><td>Système d'exploitation</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="analogy" style="margin-top:16px">
+      <strong>Un spreadsheet</strong> nous permet de réaliser des documents tels que des bulletins ou des factures. Un <strong>système d'exploitation</strong> donne la possibilité d'installer plusieurs spreadsheets.
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- CONCLUSION -->
+  <div class="section-title"><span class="num">✓</span> Conclusion — Ce qu'il faut retenir</div>
+
+  <div class="card" style="border-color: var(--green);">
+    <h3>🎯 Résumé du cours</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:10px;">
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--accent); font-family:'Syne',sans-serif; font-weight:700; margin-bottom:6px;">Un tableur c'est…</div>
+        <p style="font-size:0.9rem;">Un logiciel de calcul automatique organisé en cellules (lignes × colonnes)</p>
+      </div>
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--accent); font-family:'Syne',sans-serif; font-weight:700; margin-bottom:6px;">Une cellule c'est…</div>
+        <p style="font-size:0.9rem;">L'intersection d'une colonne (A,B…) et d'une ligne (1,2…). Ex : C5</p>
+      </div>
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--accent); font-family:'Syne',sans-serif; font-weight:700; margin-bottom:6px;">Référence relative</div>
+        <p style="font-size:0.9rem;">Change quand on copie la formule. Ex : =A1+B1</p>
+      </div>
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--accent); font-family:'Syne',sans-serif; font-weight:700; margin-bottom:6px;">Référence absolue</div>
+        <p style="font-size:0.9rem;">Ne change jamais. On utilise $. Ex : =$A$1</p>
+      </div>
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.85rem; margin-bottom:6px;">=SOMME( )</div>
+        <p style="font-size:0.9rem;">Additionner une plage de cellules</p>
+      </div>
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.85rem; margin-bottom:6px;">=MOYENNE( )</div>
+        <p style="font-size:0.9rem;">Calculer la moyenne d'une plage</p>
+      </div>
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.85rem; margin-bottom:6px;">=SI( )</div>
+        <p style="font-size:0.9rem;">Afficher une valeur selon une condition</p>
+      </div>
+      <div style="background:#060f06; border-radius:6px; padding:14px;">
+        <div style="color:var(--green); font-family:'JetBrains Mono'; font-size:0.85rem; margin-bottom:6px;">=RANG( )</div>
+        <p style="font-size:0.9rem;">Classer une valeur dans une liste (mettre $ sur la plage !)</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Cours Excel — Terminale C &amp; D &nbsp;|&nbsp; Informatique &nbsp;|&nbsp; Lycée &nbsp;·&nbsp; 2025–2026
+</footer>
+
+<script>
+function toggleAnswer(btn) {
+  const panel = btn.nextElementSibling;
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open');
+  btn.textContent = isOpen ? 'Voir la réponse' : 'Masquer la réponse';
+}
+</script>
+
+</body>
+</html>
